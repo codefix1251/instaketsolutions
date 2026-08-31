@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>INSTAKET SOLUTIONS — SMS/MMS Consent</title>
+  <meta name="description" content="Marketing SMS/MMS consent page for INSTAKET SOLUTIONS." />
+  <style>
+    :root{
+      --teal:#0b9a91;
+      --teal-dark:#057d77;
+      --navy:#0d1b3b;
+      --text:#14213d;
+      --muted:#65708a;
+      --line:#dbe3e8;
+      --bg:#f4f6f7;
+      --white:#fff;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:#fff}
+    button,input{font:inherit}
+    a{color:var(--teal-dark);font-weight:700;text-underline-offset:3px}
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:64% 36%;
+      overflow:hidden;
+      position:relative;
+      background:#fff;
+    }
+
+    .left{
+      position:relative;
+      min-height:100vh;
+      background:
+        linear-gradient(135deg,rgba(255,255,255,.05) 0 24%,transparent 24% 100%),
+        linear-gradient(180deg,#35b8b3 0%,#07958e 100%);
+      overflow:hidden;
+      padding:28px 32px;
+    }
+    .close{
+      position:absolute;left:34px;top:30px;width:46px;height:46px;
+      border:2px solid rgba(10,33,51,.75);border-radius:50%;
+      display:grid;place-items:center;font-size:34px;line-height:1;color:#102b3b;
+      background:transparent;cursor:pointer;
+    }
+    .brand-left{
+      position:absolute;top:37px;left:50%;transform:translateX(-50%);
+      color:#fff;text-align:center;line-height:1.05
+    }
+    .brand-left .mark{font-family:Georgia,serif;font-size:27px}
+    .brand-left small{font-size:11px;letter-spacing:.08em}
+    .promo-card{
+      position:absolute;left:14%;top:22%;width:56%;height:62%;
+      max-height:620px;border-radius:28px;overflow:hidden;background:#fff;
+      box-shadow:0 18px 46px rgba(0,0,0,.12);
+      border:1px solid rgba(255,255,255,.55)
+    }
+    .promo-art{
+      height:82%;
+      background:
+        radial-gradient(circle at 72% 56%,rgba(31,52,93,.95) 0 2.5%,transparent 2.6%),
+        radial-gradient(circle at 66% 61%,rgba(31,52,93,.95) 0 2.7%,transparent 2.8%),
+        radial-gradient(circle at 61% 67%,rgba(31,52,93,.95) 0 2.8%,transparent 2.9%),
+        linear-gradient(160deg,rgba(196,207,153,.95),rgba(238,231,206,.8) 44%,rgba(224,184,160,.86) 45% 70%,rgba(238,232,214,.8));
+      position:relative;
+    }
+    .promo-art:after{
+      content:"";
+      position:absolute;left:54%;top:37%;width:34%;height:32%;
+      background:linear-gradient(145deg,#e5b39c,#d99a83);
+      border-radius:70% 30% 60% 40%;
+      transform:rotate(-19deg);
+      box-shadow:-18px 16px 0 -8px #db9c85,-34px 32px 0 -16px #d99a83;
+      opacity:.9;
+    }
+    .promo-caption{
+      height:18%;background:rgba(3,132,127,.95);display:grid;place-items:center;
+      color:#fff;font-weight:800;font-style:italic;font-size:28px;text-align:center;
+      padding:10px 18px;
+    }
+    .checkin{
+      position:absolute;left:28%;bottom:6%;font-weight:800;font-style:italic;
+      font-size:34px;color:#fff
+    }
+
+    .right{
+      min-height:100vh;background:linear-gradient(180deg,#fff,#f9fafb);
+      padding:36px 42px;position:relative
+    }
+    .brand-right{text-align:center;color:var(--teal-dark);font-weight:900;letter-spacing:-.04em;line-height:.78;font-size:28px}
+    .brand-right span{display:block}
+    .brand-right small{display:block;color:#19213c;letter-spacing:0;font-size:13px;line-height:1.4;margin-top:7px}
+    .phone-title{text-align:center;font-size:26px;font-weight:800;color:#101b3d;margin-top:42px}
+    .phonebox{
+      margin:28px auto 0;height:84px;border:2px solid var(--teal);
+      border-radius:34px;display:flex;align-items:center;justify-content:space-between;
+      padding:0 24px 0 34px;max-width:430px;font-size:38px;color:var(--teal-dark);
+      letter-spacing:.04em;background:#fff
+    }
+    .phone-clear{
+      width:52px;height:42px;border:2px solid #5a6471;border-radius:13px;
+      display:grid;place-items:center;color:#182239;font-size:31px;line-height:1
+    }
+    .keypad{
+      margin:58px auto 0;max-width:360px;display:grid;grid-template-columns:repeat(3,1fr);
+      gap:40px 44px;justify-items:center
+    }
+    .key{
+      width:82px;height:82px;border-radius:50%;border:1px solid #c7ced6;background:transparent;
+      display:grid;place-items:center;font-size:36px;color:#111d3d
+    }
+    .key.zero{grid-column:2}
+
+    .overlay{
+      position:fixed;inset:0;background:rgba(4,15,27,.16);
+      display:grid;place-items:center;padding:26px;z-index:10
+    }
+    .modal{
+      width:min(720px,94vw);background:#fff;border-radius:18px;
+      box-shadow:0 22px 70px rgba(13,27,59,.22);
+      padding:32px 42px 24px;border:1px solid rgba(23,42,61,.15)
+    }
+    .modal h1{
+      margin:0 0 20px;text-align:center;color:var(--navy);
+      font-size:34px;line-height:1.15
+    }
+    .intro{font-size:20px;line-height:1.48;margin:0 0 20px}
+    .intro strong{color:var(--navy)}
+    .intro .company{color:var(--teal-dark)}
+    .facts{display:grid;gap:12px;margin:16px 0 24px}
+    .fact{display:flex;align-items:center;gap:14px;font-size:18px}
+    .ico{
+      width:36px;height:36px;flex:0 0 36px;border-radius:50%;display:grid;place-items:center;
+      background:#e8f7f5;color:var(--teal-dark);font-weight:900;font-size:14px;
+      border:1px solid #bfe4df
+    }
+    hr{border:0;border-top:1px solid var(--line);margin:18px 0 20px}
+    .consent-row{display:flex;align-items:flex-start;gap:16px;font-size:18px;line-height:1.45}
+    .consent-row input{
+      appearance:none;-webkit-appearance:none;width:34px;height:34px;min-width:34px;
+      border:2px solid var(--teal);border-radius:8px;background:#fff;margin-top:2px;cursor:pointer
+    }
+    .consent-row input:checked{background:var(--teal);position:relative}
+    .consent-row input:checked:after{
+      content:"✓";display:grid;place-items:center;color:#fff;font-size:24px;font-weight:900;height:100%
+    }
+    .links{font-size:16px;line-height:1.5;margin:18px 0 18px}
+    .actions{display:grid;grid-template-columns:1fr 1.35fr;gap:54px;align-items:center}
+    .btn{
+      height:58px;border-radius:30px;font-weight:800;font-size:18px;cursor:pointer
+    }
+    .btn-skip{border:2px solid var(--teal);background:#fff;color:var(--teal-dark)}
+    .btn-continue{border:0;background:linear-gradient(90deg,var(--teal),#0b9f91);color:#fff}
+    .btn-continue:disabled{opacity:.45;cursor:not-allowed}
+    .note{text-align:center;font-size:15px;margin:12px 0 0;color:#19213c}
+    .status{
+      margin-top:14px;padding:12px 14px;border-radius:10px;background:#edf8f6;color:#0d665f;
+      font-size:15px;display:none
+    }
+    .status.show{display:block}
+
+    @media (max-width:900px){
+      .app{grid-template-columns:1fr}
+      .left{display:none}
+      .right{min-height:100vh}
+      .overlay{align-items:center}
+      .modal{padding:28px 24px}
+      .modal h1{font-size:28px}
+      .intro{font-size:18px}
+      .actions{gap:16px}
+    }
+    @media (max-width:560px){
+      .right{padding:26px 18px}
+      .phonebox{font-size:28px}
+      .keypad{gap:26px}
+      .key{width:70px;height:70px;font-size:30px}
+      .modal{padding:24px 20px 20px}
+      .modal h1{font-size:25px}
+      .intro,.fact,.consent-row{font-size:16px}
+      .actions{grid-template-columns:1fr;gap:10px}
+      .btn{width:100%}
+      .note{font-size:13px}
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="left" aria-hidden="true">
+      <button class="close" type="button">×</button>
+      <div class="brand-left">
+        <div class="mark">Healthy</div>
+        <small>by INSTAKET SOLUTIONS</small>
+      </div>
+      <div class="promo-card">
+        <div class="promo-art"></div>
+        <div class="promo-caption">Simply put your<br>phone#</div>
+      </div>
+      <div class="checkin">Please Check In!</div>
+    </section>
+
+    <section class="right">
+      <div class="brand-right">
+        <span>INSTA</span><span>KET</span>
+        <small>SOLUTIONS<br>Ver. 3.0.1 (#21)</small>
+      </div>
+      <div class="phone-title">Enter Your Phone #</div>
+      <div class="phonebox" aria-label="Example phone number">
+        <span id="phone">234-567-8999</span>
+        <span class="phone-clear">×</span>
+      </div>
+      <div class="keypad" aria-hidden="true">
+        <div class="key">1</div><div class="key">2</div><div class="key">3</div>
+        <div class="key">4</div><div class="key">5</div><div class="key">6</div>
+        <div class="key">7</div><div class="key">8</div><div class="key">9</div>
+        <div class="key zero">0</div>
+      </div>
+    </section>
+  </main>
+
+  <div class="overlay" id="consentOverlay">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h1 id="modalTitle">Marketing SMS/MMS Consent</h1>
+
+      <p class="intro">
+        By checking the box below, you agree to receive recurring
+        <strong>marketing SMS/MMS messages</strong> from
+        <strong class="company">INSTAKET SOLUTIONS</strong>
+        at the phone number provided.
+      </p>
+
+      <div class="facts">
+        <div class="fact"><span class="ico">SMS</span><span>Message frequency varies.</span></div>
+        <div class="fact"><span class="ico">$</span><span>Message and data rates may apply.</span></div>
+        <div class="fact"><span class="ico">STOP</span><span>Reply STOP to opt out.</span></div>
+        <div class="fact"><span class="ico">HELP</span><span>Reply HELP for help.</span></div>
+        <div class="fact"><span class="ico">✓</span><span>Consent is not a condition of purchase.</span></div>
+      </div>
+
+      <hr>
+
+      <label class="consent-row">
+        <!-- IMPORTANT: checkbox is intentionally NOT pre-selected -->
+        <input id="smsConsent" type="checkbox" name="sms_consent">
+        <span>
+          I agree to receive marketing SMS/MMS messages from
+          <strong style="color:#057d77">INSTAKET SOLUTIONS</strong>
+          at the phone number provided.
+        </span>
+      </label>
+
+      <p class="links">
+        Review our
+        <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+        and
+        <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>.
+      </p>
+
+      <div class="actions">
+        <button class="btn btn-skip" id="skipBtn" type="button">Skip for now</button>
+        <button class="btn btn-continue" id="continueBtn" type="button" disabled>Continue</button>
+      </div>
+
+      <p class="note">You can still check in without receiving marketing messages.</p>
+      <div class="status" id="status" role="status"></div>
+    </section>
+  </div>
+
+  <script>
+    const consent = document.getElementById('smsConsent');
+    const continueBtn = document.getElementById('continueBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const status = document.getElementById('status');
+
+    // Never pre-select marketing consent.
+    consent.checked = false;
+    continueBtn.disabled = true;
+
+    consent.addEventListener('change', () => {
+      continueBtn.disabled = !consent.checked;
+      status.classList.remove('show');
+    });
+
+    continueBtn.addEventListener('click', () => {
+      if (!consent.checked) return;
+      status.textContent =
+        'Consent recorded for this demo. In production, store the timestamp, phone number, disclosure version, and source page.';
+      status.classList.add('show');
+    });
+
+    skipBtn.addEventListener('click', () => {
+      // Skip means NO marketing consent.
+      consent.checked = false;
+      continueBtn.disabled = true;
+      status.textContent =
+        'Skipped. No marketing SMS/MMS consent was given. The customer may continue without subscribing.';
+      status.classList.add('show');
+    });
+  </script>
+</body>
+</html>
